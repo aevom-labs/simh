@@ -1,3 +1,5 @@
+* text=auto eol=lf
+
 *.jpg binary
 *.sln binary
 *.vcproj binary
