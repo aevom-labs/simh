@@ -271,7 +271,7 @@ int ch_receive (void)
   CONST uint8 *p;
 
   tmxr_poll_rx (&ch_tmxr);
-  if (tmxr_get_packet_ln (&ch_lines[0], &p, &count) != SCPE_OK) {
+  if (tmxr_get_packet_ln (&ch_lines[0], (void*)&p, &count) != SCPE_OK) {
     sim_debug (DBG_ERR, &ch_dev, "TMXR error receiving packet\n");
     return 0;
   }

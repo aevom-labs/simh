@@ -47,5 +47,6 @@ Visual Studio Projects/*
 !Visual Studio Projects/*.sln
 Visual Studio Projects/~AutoRecover.*
 !Visual Studio Projects/0ReadMe_Projects.txt
-
+# ignore JetBrains project config
+.idea
 

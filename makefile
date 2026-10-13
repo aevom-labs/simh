@@ -123,8 +123,8 @@ ifeq ($(OLD),old)
 endif
 BUILD_SINGLE := ${MAKECMDGOALS} $(BLANK_SUFFIX)
 BUILD_MULTIPLE_VERB = is
-# building the pdp1, pdp11, tx-0, or any microvax simulator could use video support
-ifneq (,$(or $(findstring XXpdp1XX,$(addsuffix XX,$(addprefix XX,${MAKECMDGOALS}))),$(findstring pdp11,${MAKECMDGOALS}),$(findstring tx-0,${MAKECMDGOALS}),$(findstring microvax1,${MAKECMDGOALS}),$(findstring microvax2,${MAKECMDGOALS}),$(findstring microvax3900,${MAKECMDGOALS}),$(findstring microvax2000,${MAKECMDGOALS}),$(findstring vaxstation3100,${MAKECMDGOALS}),$(findstring XXvaxXX,$(addsuffix XX,$(addprefix XX,${MAKECMDGOALS})))))
+# building the pdp11, tx-0, or any microvax simulator could use video support
+ifneq (,$(or $(findstring pdp11,${MAKECMDGOALS}),$(findstring tx-0,${MAKECMDGOALS}),$(findstring microvax1,${MAKECMDGOALS}),$(findstring microvax2,${MAKECMDGOALS}),$(findstring microvax3900,${MAKECMDGOALS}),$(findstring microvax2000,${MAKECMDGOALS}),$(findstring vaxstation3100,${MAKECMDGOALS}),$(findstring XXvaxXX,$(addsuffix XX,$(addprefix XX,${MAKECMDGOALS})))))
   VIDEO_USEFUL = true
 endif
 # building the besm6 needs both video support and fontfile support
@@ -1322,13 +1322,6 @@ SIM = scp.c sim_console.c sim_fio.c sim_timer.c sim_sock.c \
 #
 # Emulator source files and compile time options
 #
-PDP1D = PDP1
-PDP1 = ${PDP1D}/pdp1_lp.c ${PDP1D}/pdp1_cpu.c ${PDP1D}/pdp1_stddev.c \
-	${PDP1D}/pdp1_sys.c ${PDP1D}/pdp1_dt.c ${PDP1D}/pdp1_drm.c \
-	${PDP1D}/pdp1_clk.c ${PDP1D}/pdp1_dcs.c
-PDP1_OPT = -I ${PDP1D}
-
-
 NOVAD = NOVA
 NOVA = ${NOVAD}/nova_sys.c ${NOVAD}/nova_cpu.c ${NOVAD}/nova_dkp.c \
 	${NOVAD}/nova_dsk.c ${NOVAD}/nova_lp.c ${NOVAD}/nova_mta.c \
@@ -1350,7 +1343,6 @@ PDP18B = ${PDP18BD}/pdp18b_dt.c ${PDP18BD}/pdp18b_drm.c ${PDP18BD}/pdp18b_cpu.c 
 	${PDP18BD}/pdp18b_rp.c ${PDP18BD}/pdp18b_stddev.c ${PDP18BD}/pdp18b_sys.c \
 	${PDP18BD}/pdp18b_rb.c ${PDP18BD}/pdp18b_tt1.c ${PDP18BD}/pdp18b_fpp.c \
 	${PDP18BD}/pdp18b_g2tty.c ${PDP18BD}/pdp18b_dr15.c
-PDP4_OPT = -DPDP4 -I ${PDP18BD}
 PDP7_OPT = -DPDP7 -I ${PDP18BD}
 PDP9_OPT = -DPDP9 -I ${PDP18BD}
 PDP15_OPT = -DPDP15 -I ${PDP18BD}
@@ -1438,28 +1430,6 @@ H316 = ${H316D}/h316_stddev.c ${H316D}/h316_lp.c ${H316D}/h316_cpu.c \
 H316_OPT = -I ${H316D}
 
 
-I1401D = I1401
-I1401 = ${I1401D}/i1401_lp.c ${I1401D}/i1401_cpu.c ${I1401D}/i1401_iq.c \
-	${I1401D}/i1401_cd.c ${I1401D}/i1401_mt.c ${I1401D}/i1401_dp.c \
-	${I1401D}/i1401_sys.c
-I1401_OPT = -I ${I1401D}
-
-
-I1620D = I1620
-I1620 = ${I1620D}/i1620_cd.c ${I1620D}/i1620_dp.c ${I1620D}/i1620_pt.c \
-	${I1620D}/i1620_tty.c ${I1620D}/i1620_cpu.c ${I1620D}/i1620_lp.c \
-	${I1620D}/i1620_fp.c ${I1620D}/i1620_sys.c
-I1620_OPT = -I ${I1620D}
-
-
-I7094D = I7094
-I7094 = ${I7094D}/i7094_cpu.c ${I7094D}/i7094_cpu1.c ${I7094D}/i7094_io.c \
-	${I7094D}/i7094_cd.c ${I7094D}/i7094_clk.c ${I7094D}/i7094_com.c \
-	${I7094D}/i7094_drm.c ${I7094D}/i7094_dsk.c ${I7094D}/i7094_sys.c \
-	${I7094D}/i7094_lp.c ${I7094D}/i7094_mt.c ${I7094D}/i7094_binloader.c
-I7094_OPT = -DUSE_INT64 -I ${I7094D}
-
-
 ID16D = Interdata
 ID16 = ${ID16D}/id16_cpu.c ${ID16D}/id16_sys.c ${ID16D}/id_dp.c \
 	${ID16D}/id_fd.c ${ID16D}/id_fp.c ${ID16D}/id_idc.c ${ID16D}/id_io.c \
@@ -1487,11 +1457,6 @@ GRI = ${GRID}/gri_cpu.c ${GRID}/gri_stddev.c ${GRID}/gri_sys.c
 GRI_OPT = -I ${GRID}
 
 
-LGPD = LGP
-LGP = ${LGPD}/lgp_cpu.c ${LGPD}/lgp_stddev.c ${LGPD}/lgp_sys.c
-LGP_OPT = -I ${LGPD}
-
-
 SDSD = SDS
 SDS = ${SDSD}/sds_cpu.c ${SDSD}/sds_drm.c ${SDSD}/sds_dsk.c ${SDSD}/sds_io.c \
 	${SDSD}/sds_lp.c ${SDSD}/sds_mt.c ${SDSD}/sds_mux.c ${SDSD}/sds_rad.c \
@@ -1507,25 +1472,13 @@ SIGMA = ${SIGMAD}/sigma_cpu.c ${SIGMAD}/sigma_sys.c ${SIGMAD}/sigma_cis.c \
 	$(SIGMAD)/sigma_cr.c $(SIGMAD)/sigma_cp.c
 SIGMA_OPT = -I ${SIGMAD}
 
-###
-### Unsupported/Incomplete simulators
-###
-
-ALPHAD = alpha
-ALPHA = ${ALPHAD}/alpha_500au_syslist.c ${ALPHAD}/alpha_cpu.c \
-    ${ALPHAD}/alpha_ev5_cons.c ${ALPHAD}/alpha_ev5_pal.c \
-    ${ALPHAD}/alpha_ev5_tlb.c ${ALPHAD}/alpha_fpi.c \
-    ${ALPHAD}/alpha_fpv.c ${ALPHAD}/alpha_io.c \
-    ${ALPHAD}/alpha_mmu.c ${ALPHAD}/alpha_sys.c
-ALPHA_OPT = -I ${ALPHAD} -DUSE_ADDR64 -DUSE_INT64
-
 #
 # Build everything
 #
-ALL = pdp1 pdp4 pdp7 pdp8 pdp9 pdp15 pdp11 pdp10 \
-	vax vax780 nova eclipse i1401 i1620 \
-	altair gri i7094 id16 uc15 \
-	id32 sds lgp h316 sigma
+ALL = pdp7 pdp8 pdp9 pdp15 pdp11 pdp10 \
+	vax vax780 nova eclipse \
+	altair gri id16 uc15 \
+	id32 sds h316 sigma
 
 all : ${ALL}
 
@@ -1540,18 +1493,6 @@ endif
 #
 # Individual builds
 #
-pdp1 : ${BIN}pdp1${EXE}
-
-${BIN}pdp1${EXE} : ${PDP1} ${SIM}
-	${MKDIRBIN}
-	${CC} ${PDP1} ${SIM} ${PDP1_OPT} $(CC_OUTSPEC) ${LDFLAGS}
-
-pdp4 : ${BIN}pdp4${EXE}
-
-${BIN}pdp4${EXE} : ${PDP18B} ${SIM}
-	${MKDIRBIN}
-	${CC} ${PDP18B} ${SIM} ${PDP4_OPT} $(CC_OUTSPEC) ${LDFLAGS}
-
 pdp7 : ${BIN}pdp7${EXE}
 
 ${BIN}pdp7${EXE} : ${PDP18B} ${SIM}
@@ -1624,24 +1565,6 @@ ${BIN}h316${EXE} : ${H316} ${SIM}
 	${MKDIRBIN}
 	${CC} ${H316} ${SIM} ${H316_OPT} $(CC_OUTSPEC) ${LDFLAGS}
 
-i1401 : ${BIN}i1401${EXE}
-
-${BIN}i1401${EXE} : ${I1401} ${SIM}
-	${MKDIRBIN}
-	${CC} ${I1401} ${SIM} ${I1401_OPT} $(CC_OUTSPEC) ${LDFLAGS}
-
-i1620 : ${BIN}i1620${EXE}
-
-${BIN}i1620${EXE} : ${I1620} ${SIM}
-	${MKDIRBIN}
-	${CC} ${I1620} ${SIM} ${I1620_OPT} $(CC_OUTSPEC) ${LDFLAGS}
-
-i7094 : ${BIN}i7094${EXE}
-
-${BIN}i7094${EXE} : ${I7094} ${SIM}
-	${MKDIRBIN}
-	${CC} ${I7094} ${SIM} ${I7094_OPT} $(CC_OUTSPEC) ${LDFLAGS}
-
 altair : ${BIN}altair${EXE}
 
 ${BIN}altair${EXE} : ${ALTAIR} ${SIM}
@@ -1653,12 +1576,6 @@ gri : ${BIN}gri${EXE}
 ${BIN}gri${EXE} : ${GRI} ${SIM}
 	${MKDIRBIN}
 	${CC} ${GRI} ${SIM} ${GRI_OPT} $(CC_OUTSPEC) ${LDFLAGS}
-
-lgp : ${BIN}lgp${EXE}
-
-${BIN}lgp${EXE} : ${LGP} ${SIM}
-	${MKDIRBIN}
-	${CC} ${LGP} ${SIM} ${LGP_OPT} $(CC_OUTSPEC) ${LDFLAGS}
 
 id16 : ${BIN}id16${EXE}
 
@@ -1683,10 +1600,4 @@ sigma : ${BIN}sigma${EXE}
 ${BIN}sigma${EXE} : ${SIGMA} ${SIM}
 	${MKDIRBIN}
 	${CC} ${SIGMA} ${SIM} ${SIGMA_OPT} $(CC_OUTSPEC) ${LDFLAGS}
-
-alpha : ${BIN}alpha${EXE}
-
-${BIN}alpha${EXE} : ${ALPHA} ${SIM}
-	${MKDIRBIN}
-	${CC} ${ALPHA} ${SIM} ${ALPHA_OPT} $(CC_OUTSPEC) ${LDFLAGS}
 
