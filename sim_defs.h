@@ -23,7 +23,7 @@
    used in advertising or otherwise to promote the sale, use or other dealings
    in this Software without prior written authorization from Robert M Supnik.
 
-   05-May-22    RMS     Added UNIT_V4XTND
+   05-May-24    RMS     Added UNIT_V4XTND
    06-Jun-22    RMS     Deprecated UNIT_TEXT, deleted UNIT_RAW
    10-Mar-22    JDB     Modified REG macros to fix "stringizing" problem
    12-Nov-21    JDB     Added UNIT_EXTEND dynamic flag
@@ -418,7 +418,7 @@ struct sim_unit {
 #define UNIT_ROABLE     001000                          /* read only ok */
 #define UNIT_DISABLE    002000                          /* disable-able */
 #define UNIT_DIS        004000                          /* disabled */
-#define UNIT_V4XTND     010000                          /* enabe V4 extensions */
+#define UNIT_V4XTND     010000                          /* enable V4 extensions */
 #define UNIT_IDLE       040000                          /* idle eligible */
 
 /* Deleted or deprecated */

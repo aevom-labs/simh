@@ -26,6 +26,7 @@
    Based on the original DZ11 simulator by Thord Nilson, as updated by
    Arthur Krewat.
 
+   19-Jul-24    RMS     Fixed potential undefined variable (Dave Bryan)
    19-Apr-24    RMS     Merged CH11 changes (Lars Brinkhoff)
    27-Mar-24    JDB     Dropped socket report from "tmxr_open_master"
    07-Feb-23    RMS     Silenced Mac compiler warnings (Ken Rector)
@@ -750,7 +751,7 @@ return SCPE_OK;
 
 t_stat tmxr_open_master_xtnd (TMXR *mp, char *cptr)
 {
-int32 i, port, line = -1;
+int32 i, port = 0, line = -1;
 SOCKET sock;
 TMLN *lp;
 t_stat r;
@@ -763,7 +764,7 @@ do {
   if (comma)
     *comma = 0;
   if (isdigit(*cptr)) {
-    port = (int32) get_uint (cptr, 10, 65535, &r);          /* get port */
+    port = (int32) get_uint (cptr, 10, 65535, &r);      /* get port */
     if ((r != SCPE_OK) || (port == 0))
         return SCPE_ARG;
   } else {
@@ -788,13 +789,15 @@ do {
   if (comma)
     cptr = comma + 1;
 } while (comma != NULL);
+if (port == 0)                                          /* has to be a port */
+    return SCPE_ARG;
 if (sim_switches & SWMASK ('U'))
   flags |= SIM_SOCK_OPT_REUSEADDR;
 snprintf(str, sizeof str, "%d", port);
 if (flags & SIM_SOCK_OPT_DATAGRAM)
   sock = sim_connect_sock_ex (str, peer, "localhost", NULL, flags);
 else
-  sock = sim_master_sock_ex (str, &r, flags);                      /* make master socket */
+  sock = sim_master_sock_ex (str, &r, flags);           /* make master socket */
 if (sock == INVALID_SOCKET)                             /* open error */
     return SCPE_OPENERR;
 sim_printf("Listening on port %d\n", port);
