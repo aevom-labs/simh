@@ -1,0 +1,32 @@
+name: Build
+
+on:
+  pull_request:
+
+jobs:
+  make:
+    name: Build all simulators
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - macos-latest
+          - ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Install dependencies (macOS)
+        if: ${{ runner.os == 'macOS' }}
+        run: |
+          brew update
+          brew install vde pcre libedit sdl2 libpng zlib sdl2_ttf make
+
+      - name: Install dependencies (Linux)
+        if: ${{ runner.os == 'Linux' }}
+        run: |
+          sudo apt-get update -yqq
+          sudo apt-get install -y make gcc libpcap-dev libvdeplug-dev libpcre2-dev libedit-dev libsdl2-dev libpng-dev libsdl2-ttf-dev
+      
+      - name: Makefile build
+        run: |
+          make
